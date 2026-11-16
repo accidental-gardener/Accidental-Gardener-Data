@@ -5,8 +5,8 @@ templates below; plant-specific advice is written per plant.
 """
 import json, sys
 
-VERSION = 4
-UPDATED = "2026-11-15"
+VERSION = 5
+UPDATED = "2026-11-16"
 PLANTS = []
 
 
@@ -1530,6 +1530,26 @@ P("honesty", "Honesty", "💜", "FLOWER", "BRASSICA", 300, 6, fixedSow=[6, 1], f
   tip="A biennial with silver seed discs for drying.", depth="1 cm", space=30, row=30, germ="10 to 14 days",
   harvest=["Cut the seed heads in autumn and peel back the outer skins to reveal the silver discs."])
 
+
+P("banana", "Banana (dwarf, in a pot)", "🍌", "FRUIT", "OTHER", 730, 4, directWeeksAfter=2, perennial=True,
+  planted=True, solo=True, tunnel="NEEDS", water="HIGH", feed="HIGH", potSize="45 cm pot or bigger",
+  tip="Ireland is too cool for bananas to fruit outside. A dwarf Cavendish in a big pot in a warm conservatory or bright room can fruit after two or three years. The hardy Musa basjoo grows outside in sheltered gardens but its fruit isn't worth eating.",
+  depth="same as in its pot", space=100, row=100,
+  planting=["Buy a young dwarf Cavendish plant. It's far quicker than seed and the fruit will be edible.",
+            "Pot it into a large pot with drainage holes, using multipurpose compost mixed with some John Innes No 3 and a handful of grit.",
+            "Plant at the same depth it was growing and stand it in the brightest, warmest spot you have, ideally 20 to 30°C and never below 10°C."],
+  layout="One plant per pot. Give it room, as the leaves spread over a metre.",
+  care=["Water generously in summer so the compost never dries out, and mist the leaves on warm days.",
+        "Feed every week from spring to autumn with a high nitrogen liquid feed, then switch to tomato feed once a flower stalk appears.",
+        "Move it outside to a sheltered sunny spot only in warm summer spells and bring it back in before nights drop below 10°C.",
+        "In winter water much less and keep it somewhere bright that stays above 10°C."],
+  harvest=["After two or three years a big purple flower stalk appears and small green bananas form behind it. They take three to six months to fill out.",
+           "Cut the whole bunch when the fruit is plump and the first one starts to turn yellow, then let them ripen indoors.",
+           "The stem that fruited then dies. Cut it down and let one of the young side shoots take its place."])
+SEED_OVERRIDES["banana"] = dict(difficulty="Easy", timing="NONE", years=0, steps=[
+    "Bananas you eat have no viable seeds. New plants come from the side shoots (suckers) around the base.",
+    "In spring, when a sucker is about 60 cm tall and has its own roots, cut it away from the parent with a sharp spade.",
+    "Pot it up on its own and keep it warm until it settles in."])
 
 # ---------------------------------------------------------------------
 # Bulbs and tubers listed earlier move into the bulbs category
