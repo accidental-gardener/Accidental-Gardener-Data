@@ -5,7 +5,7 @@ templates below; plant-specific advice is written per plant.
 """
 import json, sys
 
-VERSION = 5
+VERSION = 6
 UPDATED = "2026-11-16"
 PLANTS = []
 
@@ -256,7 +256,9 @@ def build(p):
     if planted:
         title = "How to plant"
         facts = [["Depth", depth], ["Spacing", f"{space} cm"], ["Rows", f"{row} cm apart"]]
-        steps = ["Fork over the bed, pull out weeds and work in a bucket of compost per square metre."]
+        if p.get("potOnly"):
+            facts = [["Depth", depth], ["Pot", p.get("potSize", "a large pot")]]
+        steps = [] if p.get("potOnly") else ["Fork over the bed, pull out weeds and work in a bucket of compost per square metre."]
         steps += p["planting"]
         steps.append("Water in well, even if rain is forecast. It settles the soil around the roots.")
         sow = dict(title=title, facts=facts, steps=steps, layout=layout)
@@ -326,7 +328,8 @@ def build(p):
         care.append("Only needs watering in long dry spells.")
     if p.get("feed") == "HIGH" and not any("feed" in c.lower() for c in care):
         care.append("Hungry plant. A liquid feed every two weeks in summer gives a better crop.")
-    care.append("Keep the bed weeded, especially while plants are small.")
+    if not p.get("potOnly"):
+        care.append("Keep the bed weeded, especially while plants are small.")
 
     harvest = p.get("harvest") or ["Harvest when ready and enjoy."]
 
@@ -1532,7 +1535,7 @@ P("honesty", "Honesty", "💜", "FLOWER", "BRASSICA", 300, 6, fixedSow=[6, 1], f
 
 
 P("banana", "Banana (dwarf, in a pot)", "🍌", "FRUIT", "OTHER", 730, 4, directWeeksAfter=2, perennial=True,
-  planted=True, solo=True, tunnel="NEEDS", water="HIGH", feed="HIGH", potSize="45 cm pot or bigger",
+  planted=True, potOnly=True, solo=True, tunnel="NEEDS", water="HIGH", feed="HIGH", potSize="45 cm pot or bigger",
   tip="Ireland is too cool for bananas to fruit outside. A dwarf Cavendish in a big pot in a warm conservatory or bright room can fruit after two or three years. The hardy Musa basjoo grows outside in sheltered gardens but its fruit isn't worth eating.",
   depth="same as in its pot", space=100, row=100,
   planting=["Buy a young dwarf Cavendish plant. It's far quicker than seed and the fruit will be edible.",

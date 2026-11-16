@@ -1,5 +1,5 @@
 {
- "version": 5,
+ "version": 6,
  "updated": "2026-11-16",
  "plants": [
   {
@@ -15297,16 +15297,11 @@
        "same as in its pot"
       ],
       [
-       "Spacing",
-       "100 cm"
-      ],
-      [
-       "Rows",
-       "100 cm apart"
+       "Pot",
+       "45 cm pot or bigger"
       ]
      ],
      "steps": [
-      "Fork over the bed, pull out weeds and work in a bucket of compost per square metre.",
       "Buy a young dwarf Cavendish plant. It's far quicker than seed and the fruit will be edible.",
       "Pot it into a large pot with drainage holes, using multipurpose compost mixed with some John Innes No 3 and a handful of grit.",
       "Plant at the same depth it was growing and stand it in the brightest, warmest spot you have, ideally 20 to 30°C and never below 10°C.",
@@ -15321,8 +15316,7 @@
      "Feed every week from spring to autumn with a high nitrogen liquid feed, then switch to tomato feed once a flower stalk appears.",
      "Move it outside to a sheltered sunny spot only in warm summer spells and bring it back in before nights drop below 10°C.",
      "In winter water much less and keep it somewhere bright that stays above 10°C.",
-     "Thirsty plant. In dry spells give it a deep soak two or three times a week rather than a sprinkle every day.",
-     "Keep the bed weeded, especially while plants are small."
+     "Thirsty plant. In dry spells give it a deep soak two or three times a week rather than a sprinkle every day."
     ],
     "harvest": [
      "After two or three years a big purple flower stalk appears and small green bananas form behind it. They take three to six months to fill out.",
