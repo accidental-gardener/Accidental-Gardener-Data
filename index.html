@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Accidental Gardener · Plant wiki</title>
+<meta name="description" content="Growing guides for veg, fruit, herbs, flowers and bulbs that grow well in Ireland.">
+<style>
+  :root {
+    --moss: #3F5E2F; --leaf: #6E9B4A; --sprout: #C6E0A0; --terracotta: #C0623C;
+    --cream: #F7F1E3; --parchment: #EFE5CE; --ink: #2B2A22; --muted: #5B5546; --card: #FFFCF5;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--cream); color: var(--ink); line-height: 1.5; }
+  header { background: linear-gradient(135deg, var(--moss), var(--leaf)); color: #fff; padding: 28px 20px 36px; border-radius: 0 0 28px 28px; }
+  header .wrap { max-width: 980px; margin: 0 auto; }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; }
+  h1 { margin: 0 0 4px; font-size: 2rem; }
+  header p { margin: 0; opacity: .9; }
+  main { max-width: 980px; margin: -18px auto 40px; padding: 0 16px; }
+  .bar { background: var(--card); border-radius: 18px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  input[type=search], input[type=text], textarea, select { font: inherit; padding: 10px 14px; border: 1px solid #cdbf9f; border-radius: 12px; background: #fff; color: var(--ink); }
+  input[type=search] { flex: 1 1 260px; border-radius: 999px; }
+  .chip { border: 1px solid #cdbf9f; background: #fff; border-radius: 999px; padding: 6px 14px; cursor: pointer; font: inherit; color: var(--ink); }
+  .chip.on { background: var(--sprout); border-color: var(--moss); color: #1c3010; font-weight: 600; }
+  .btn { background: var(--moss); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font: inherit; font-weight: 600; cursor: pointer; }
+  .btn.alt { background: var(--terracotta); }
+  .btn.ghost { background: transparent; color: var(--moss); border: 1px solid var(--moss); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+  .card { background: var(--card); border-radius: 18px; padding: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); cursor: pointer; display: flex; gap: 12px; align-items: center; border: 2px solid transparent; }
+  .card:hover { border-color: var(--sprout); }
+  .emoji { width: 48px; height: 48px; border-radius: 50%; background: var(--parchment); display: grid; place-items: center; font-size: 26px; flex: none; }
+  .card small { color: var(--muted); }
+  .pill { display: inline-block; font-size: .78rem; padding: 2px 10px; border-radius: 999px; background: var(--parchment); margin: 2px 4px 2px 0; }
+  .detail { background: var(--card); border-radius: 22px; padding: 22px; margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .detail h2 { margin: 0; color: var(--moss); }
+  .section { margin-top: 18px; }
+  .section h3 { margin: 0 0 6px; color: var(--moss); font-size: 1.15rem; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0; }
+  .fact { background: var(--parchment); border-radius: 12px; padding: 6px 12px; font-size: .9rem; }
+  .fact b { display: block; color: var(--moss); font-size: .75rem; }
+  ol, ul { padding-left: 22px; margin: 6px 0; }
+  .tip { background: #F6D3BE; border-radius: 14px; padding: 10px 14px; margin-top: 14px; }
+  dialog { border: 0; border-radius: 22px; padding: 22px; max-width: 520px; width: 92vw; background: var(--card); color: var(--ink); }
+  dialog::backdrop { background: rgba(0,0,0,.4); }
+  dialog label { display: block; font-weight: 600; margin-top: 12px; color: var(--moss); }
+  dialog input, dialog textarea, dialog select { width: 100%; margin-top: 4px; }
+  .hp { position: absolute; left: -9999px; }
+  .msg { margin-top: 10px; font-weight: 600; }
+  footer { max-width: 980px; margin: 0 auto 30px; padding: 0 16px; color: var(--muted); font-size: .85rem; }
+  a { color: var(--moss); }
+  .count { color: var(--muted); margin-top: 10px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>🌱 The Accidental Gardener</h1>
+    <p>The plant wiki. Growing guides for veg, fruit, herbs, flowers and bulbs that do well in Ireland.</p>
+  </div>
+</header>
+
+<main>
+  <div class="bar">
+    <input type="search" id="q" placeholder="Search plants…" aria-label="Search plants">
+    <span id="cats"></span>
+    <button class="btn alt" id="requestBtn">📮 Request a plant</button>
+  </div>
+  <div class="count" id="count"></div>
+  <div id="view"></div>
+</main>
+
+<footer>
+  <p>Can't find a plant or spotted a mistake? Use the request button and the admins will add it properly. Changes reach the app automatically.</p>
+  <p>Planting dates in the app are worked out from your own frost date. Always check the seed packet too.</p>
+</footer>
+
+<dialog id="dlg">
+  <form id="form" method="dialog">
+    <h2 id="dlgTitle" style="margin-top:0;color:var(--moss)">Request a plant</h2>
+    <label>What kind of request?
+      <select name="kind" id="kind">
+        <option value="new-plant">Please add a new plant</option>
+        <option value="fix">Something needs fixing in a guide</option>
+        <option value="other">Other feedback</option>
+      </select>
+    </label>
+    <label>Plant name
+      <input type="text" name="plant" id="plant" maxlength="80" placeholder="e.g. Oca, purple sprouting broccoli">
+    </label>
+    <label>Details
+      <textarea name="details" id="details" rows="5" maxlength="3000" placeholder="Anything useful, like the variety, what's wrong, or how you grow it"></textarea>
+    </label>
+    <label>Your first name (optional)
+      <input type="text" name="from" maxlength="60">
+    </label>
+    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="msg" id="msg"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
+      <button type="button" class="btn ghost" id="cancel">Close</button>
+      <button type="submit" class="btn" id="send">Send</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+// Where requests go. Filled in once the Cloudflare request service is live.
+const REQUEST_URL = "https://gardener-requests.REPLACE_ME.workers.dev";
+
+const CATS = { VEG: "🥕 Veg", FRUIT: "🍓 Fruit", HERB: "🌿 Herbs", FLOWER: "🌸 Flowers", BULB: "🌷 Bulbs" };
+const TUNNEL = { NEEDS: "⛺ Needs a tunnel", LIKES: "⛺ Likes cover", OUTDOOR: "☀️ Best outdoors", EITHER: "" };
+let plants = [], cat = null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function weeksText(w) {
+  if (w === 0) return "around the last frost";
+  return w < 0 ? `${-w} weeks before the last frost` : `${w} weeks after the last frost`;
+}
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function timing(p) {
+  if (p.fixedSow) return `Plant around ${p.fixedSow[1]} ${MONTHS[p.fixedSow[0] - 1]}`;
+  if (p.sowIndoorsWeeksBefore != null) return `Sow indoors ${weeksText(-p.sowIndoorsWeeksBefore)}, plant out ${weeksText(p.plantOutWeeksAfter || 0)}`;
+  return `${p.planted ? "Plant" : "Sow"} ${weeksText(p.directWeeksAfter || 0)}`;
+}
+
+function pills(p) {
+  return [TUNNEL[p.tunnel] || "", p.frostHardy ? "❄️ Hardy" : "", p.water === "HIGH" ? "💧 Thirsty" : "",
+    p.perennial ? "♻️ Perennial" : "", p.pollinator ? "🐝 Pollinators" : "", p.potOk ? "🪴 Pots" : ""]
+    .filter(Boolean).map(t => `<span class="pill">${t}</span>`).join("");
+}
+
+function section(s) {
+  if (!s) return "";
+  const facts = (s.facts || []).map(([k, v]) => `<div class="fact"><b>${esc(k)}</b>${esc(v)}</div>`).join("");
+  return `<div class="section"><h3>${esc(s.title)}</h3>${facts ? `<div class="facts">${facts}</div>` : ""}
+    ${(s.steps || []).length ? `<ol>${s.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol>` : ""}
+    ${s.layout ? `<p><b>How the bed should look.</b> ${esc(s.layout)}</p>` : ""}</div>`;
+}
+
+function list() {
+  const q = $("#q").value.trim().toLowerCase();
+  const shown = plants.filter(p => (!cat || p.category === cat) && (!q || p.name.toLowerCase().includes(q)))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  $("#count").textContent = `${shown.length} of ${plants.length} plants`;
+  $("#view").innerHTML = shown.length ? `<div class="grid">${shown.map(p => `
+    <div class="card" data-id="${esc(p.id)}" tabindex="0">
+      <div class="emoji">${esc(p.emoji)}</div>
+      <div><b>${esc(p.name)}</b><br><small>${esc(CATS[p.category] || "")}</small></div>
+    </div>`).join("")}</div>`
+    : `<div class="detail"><h2>Not in the wiki yet</h2><p>Ask for "${esc(q)}" to be added and the admins will write a proper guide.</p>
+       <button class="btn alt" onclick="openRequest('new-plant', ${JSON.stringify(q).replace(/"/g, "&quot;")})">📮 Request it</button></div>`;
+  document.querySelectorAll(".card").forEach(c => {
+    c.onclick = () => { location.hash = "plant=" + c.dataset.id; };
+    c.onkeydown = e => { if (e.key === "Enter") c.click(); };
+  });
+}
+
+function detail(id) {
+  const p = plants.find(x => x.id === id);
+  if (!p) return list();
+  const g = p.guide || {};
+  const ss = g.seedSaving;
+  $("#count").innerHTML = `<a href="#" onclick="location.hash='';return false">← All plants</a>`;
+  $("#view").innerHTML = `<div class="detail">
+    <div style="display:flex;gap:14px;align-items:center">
+      <div class="emoji" style="width:72px;height:72px;font-size:40px">${esc(p.emoji)}</div>
+      <div><h2>${esc(p.name)}</h2><div>${pills(p)}</div></div>
+    </div>
+    <p><b>When.</b> ${esc(timing(p))}. Ready about ${p.daysToHarvest} days later and keeps going for about ${p.harvestWeeks} weeks.</p>
+    ${p.flowers ? `<p><b>Flowers.</b> ${esc(p.flowers)}</p>` : ""}
+    ${p.potOk && p.potSize ? `<p><b>In a pot.</b> Use a ${esc(p.potSize)}.</p>` : ""}
+    ${g.prep ? section(g.prep.section) : ""}
+    ${section(g.sow)}
+    ${section(g.harden)}
+    ${section(g.plantOut)}
+    ${(g.care || []).length ? `<div class="section"><h3>Looking after it</h3><ul>${g.care.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+    ${(g.harvest || []).length ? `<div class="section"><h3>Harvesting</h3><ul>${g.harvest.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+    ${ss ? section(ss.section) + (ss.note ? `<p><i>${esc(ss.note)}</i></p>` : "") : ""}
+    ${p.tip ? `<div class="tip">💡 ${esc(p.tip)}</div>` : ""}
+    <p style="margin-top:18px"><button class="btn ghost" onclick="openRequest('fix', ${JSON.stringify(p.name).replace(/"/g, "&quot;")})">✏️ Suggest a fix to this guide</button></p>
+  </div>`;
+  window.scrollTo(0, 0);
+}
+
+function route() {
+  const m = location.hash.match(/plant=([^&]+)/);
+  m ? detail(decodeURIComponent(m[1])) : list();
+}
+
+function openRequest(kind = "new-plant", plant = "") {
+  $("#kind").value = kind;
+  $("#plant").value = plant;
+  $("#details").value = "";
+  $("#msg").textContent = "";
+  $("#dlgTitle").textContent = kind === "fix" ? "Suggest a fix" : "Request a plant";
+  $("#send").disabled = false;
+  $("#dlg").showModal();
+}
+
+$("#form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  data.source = "wiki";
+  $("#send").disabled = true;
+  $("#msg").textContent = "Sending…";
+  try {
+    const r = await fetch(REQUEST_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok) { $("#msg").textContent = "Thanks! Your request has been sent to the admins. 🌱"; }
+    else { $("#msg").textContent = j.error || "Couldn't send that. Please try again later."; $("#send").disabled = false; }
+  } catch {
+    $("#msg").textContent = "Couldn't send that. Please check your connection.";
+    $("#send").disabled = false;
+  }
+});
+$("#cancel").onclick = () => $("#dlg").close();
+$("#requestBtn").onclick = () => openRequest("new-plant", $("#q").value.trim());
+$("#q").addEventListener("input", () => { if (location.hash) location.hash = ""; else list(); });
+window.addEventListener("hashchange", route);
+
+$("#cats").innerHTML = Object.entries(CATS).map(([k, v]) => `<button class="chip" data-c="${k}">${v}</button>`).join(" ");
+document.querySelectorAll(".chip").forEach(b => b.onclick = () => {
+  cat = cat === b.dataset.c ? null : b.dataset.c;
+  document.querySelectorAll(".chip").forEach(x => x.classList.toggle("on", x.dataset.c === cat));
+  location.hash = ""; list();
+});
+
+fetch("plants.json").then(r => r.json()).then(d => { plants = d.plants || []; route(); })
+  .catch(() => { $("#view").innerHTML = `<div class="detail">Couldn't load the plant list. Please refresh.</div>`; });
+</script>
+</body>
+</html>
