@@ -6,6 +6,8 @@
  * The GitHub key lives only here as a secret called GITHUB_TOKEN, never in the app.
  *
  * Optional KV binding RATE limits each address to a few requests per hour.
+ * Secret REPLY_SECRET signs a private reply key for each request so only the person
+ * who sent it can answer the admins' questions (POST /reply).
  */
 const REPO = "accidental-gardener/Accidental-Gardener-Data";
 const ALLOWED_ORIGINS = ["https://accidental-gardener.github.io"];
@@ -33,6 +35,26 @@ function json(body, status, origin) {
   });
 }
 
+async function replyKey(secret, number) {
+  const k = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const sig = await crypto.subtle.sign("HMAC", k, new TextEncoder().encode(String(number)));
+  return [...new Uint8Array(sig)].slice(0, 16).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+function gh(env, path, method = "GET", body) {
+  return fetch(`https://api.github.com/repos/${REPO}${path}`, {
+    method,
+    headers: {
+      "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+      "Accept": "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      "User-Agent": "accidental-gardener-requests",
+      "Content-Type": "application/json",
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+}
+
 const clean = (v, max) => String(v ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, max);
 
 export default {
@@ -51,6 +73,20 @@ export default {
 
     // Honeypot: real people never fill in this hidden field.
     if (data.website) return json({ ok: true }, 200, origin);
+
+    const path = new URL(request.url).pathname;
+    if (path === "/reply") {
+      const number = parseInt(data.number, 10);
+      const message = String(data.message ?? "").trim().slice(0, 3000);
+      if (!number || !message || !env.REPLY_SECRET || !env.GITHUB_TOKEN) return json({ error: "Missing details." }, 400, origin);
+      if (String(data.key) !== await replyKey(env.REPLY_SECRET, number)) return json({ error: "That reply code doesn't match." }, 403, origin);
+      const c = await gh(env, `/issues/${number}/comments`, "POST", {
+        body: `**Reply from the person who asked:**\n\n${message.replace(/@/g, "@\u200b")}`,
+      });
+      if (!c.ok) return json({ error: "Couldn't send your reply just now." }, 502, origin);
+      await gh(env, `/issues/${number}/labels/needs-info`, "DELETE");
+      return json({ ok: true }, 200, origin);
+    }
 
     const kind = KINDS[data.kind] ? data.kind : "other";
     const plant = clean(data.plant, 80);
@@ -81,23 +117,14 @@ export default {
       details ? details.replace(/@/g, "@​") : "_No extra details_",
     ].filter(x => x !== null).join("\n");
 
-    const gh = await fetch(`https://api.github.com/repos/${REPO}/issues`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
-        "Accept": "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "accidental-gardener-requests",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title, body, labels: [k.label] }),
-    });
-    if (!gh.ok) {
-      const text = await gh.text();
-      console.log("GitHub error", gh.status, text.slice(0, 300));
+    const res = await gh(env, "/issues", "POST", { title, body, labels: [k.label] });
+    if (!res.ok) {
+      const text = await res.text();
+      console.log("GitHub error", res.status, text.slice(0, 300));
       return json({ error: "Couldn't send your request just now. Please try again later." }, 502, origin);
     }
-    const issue = await gh.json();
-    return json({ ok: true, number: issue.number }, 200, origin);
+    const issue = await res.json();
+    const key = env.REPLY_SECRET ? await replyKey(env.REPLY_SECRET, issue.number) : "";
+    return json({ ok: true, number: issue.number, key }, 200, origin);
   },
 };
