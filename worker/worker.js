@@ -5,13 +5,13 @@
  * and the plant wiki, and turns each one into a GitHub Issue for the admins.
  * The GitHub key lives only here as a secret called GITHUB_TOKEN, never in the app.
  *
- * Optional KV binding RATE limits each address to a few requests per hour.
+ * Optional KV binding RATE limits each address to 3 requests a day.
  * Secret REPLY_SECRET signs a private reply key for each request so only the person
  * who sent it can answer the admins' questions (POST /reply).
  */
 const REPO = "accidental-gardener/Accidental-Gardener-Data";
 const ALLOWED_ORIGINS = ["https://accidental-gardener.github.io"];
-const MAX_PER_HOUR = 5;
+const MAX_PER_DAY = 3;
 
 const KINDS = {
   "new-plant": { label: "plant-request", title: "New plant" },
@@ -98,10 +98,10 @@ export default {
     // Simple rate limit per address.
     if (env.RATE) {
       const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-      const key = `${ip}:${new Date().toISOString().slice(0, 13)}`;
+      const key = `${ip}:${new Date().toISOString().slice(0, 10)}`;
       const count = parseInt((await env.RATE.get(key)) || "0", 10);
-      if (count >= MAX_PER_HOUR) return json({ error: "Thanks! You've sent a lot of requests. Please try again in an hour." }, 429, origin);
-      await env.RATE.put(key, String(count + 1), { expirationTtl: 3600 });
+      if (count >= MAX_PER_DAY) return json({ error: "Thanks! You've used your 3 requests for today. Please try again tomorrow.", limit: MAX_PER_DAY, left: 0 }, 429, origin);
+      await env.RATE.put(key, String(count + 1), { expirationTtl: 86400 });
     }
 
     if (!env.GITHUB_TOKEN) return json({ error: "The request service isn't set up yet." }, 503, origin);
