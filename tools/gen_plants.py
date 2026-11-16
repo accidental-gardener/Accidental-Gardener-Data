@@ -5,7 +5,7 @@ templates below; plant-specific advice is written per plant.
 """
 import json, sys
 
-VERSION = 6
+VERSION = 7
 UPDATED = "2026-11-16"
 PLANTS = []
 
@@ -1553,6 +1553,28 @@ SEED_OVERRIDES["banana"] = dict(difficulty="Easy", timing="NONE", years=0, steps
     "Bananas you eat have no viable seeds. New plants come from the side shoots (suckers) around the base.",
     "In spring, when a sucker is about 60 cm tall and has its own roots, cut it away from the parent with a sharp spade.",
     "Pot it up on its own and keep it warm until it settles in."])
+
+P("avocado", "Avocado (in a pot)", "🥑", "FRUIT", "OTHER", 1095, 4, directWeeksAfter=2, perennial=True,
+  planted=True, potOnly=True, solo=True, tunnel="NEEDS", water="MEDIUM", feed="MEDIUM", potSize="40 cm pot or bigger",
+  tip="Ireland is too cool and dull for avocados to crop outside. Grow one as a leafy tree in a pot in a bright room or conservatory. A grafted plant may give a few fruit after three or four years but don't count on it. One grown from a stone makes a lovely houseplant but will rarely fruit.",
+  depth="same as in its pot", space=100, row=100,
+  planting=["For any chance of fruit buy a young grafted plant of a named variety such as Hass. A stone from the shop is fun to grow but takes many years and rarely fruits.",
+            "Plant it in a pot with plenty of drainage holes, using multipurpose compost mixed with John Innes No 3 and a couple of handfuls of grit or perlite.",
+            "Plant at the same depth it was growing and stand it in the brightest spot you have, out of cold draughts and away from radiators."],
+  layout="One plant per pot. It will grow into a small tree, so move it up a pot size every couple of years.",
+  care=["Water when the top few centimetres of compost feel dry, then let the excess drain away. Avocados hate soggy roots.",
+        "Feed every two weeks from spring to late summer with a balanced liquid feed. Stop feeding in winter.",
+        "Pinch out the tip when it reaches about 30 cm, and again later, to make it bushy instead of tall and spindly.",
+        "It can go outside to a sheltered sunny spot in warm summer spells. Bring it back in before nights drop below 10°C.",
+        "In winter keep it bright, above 10°C and on the dry side. Brown leaf tips usually mean dry air or salty tap water, so use rainwater when you can."],
+  harvest=["Flowers appear in spring but fruit only sets now and then indoors. Hand pollinating with a soft brush may help.",
+           "Fruit takes six months or more to fill out and does not ripen on the tree.",
+           "Pick when full sized and the skin has lost its shine, then leave on a windowsill for a week or two until it gives slightly when pressed."])
+SEED_OVERRIDES["avocado"] = dict(difficulty="Easy", timing="NONE", years=0, steps=[
+    "Avocados don't come true from the stone and seedlings take ten years or more to fruit, if they ever do. Grow one just for the leaves.",
+    "Wash a stone from a ripe avocado and push three cocktail sticks into its sides. Rest it on a glass of water with the pointed end up and the bottom third under water.",
+    "Keep it somewhere warm and change the water every few days. Roots and a shoot appear in four to eight weeks, sometimes longer.",
+    "When the shoot is about 15 cm tall pot it into compost with the top half of the stone above the surface."])
 
 # ---------------------------------------------------------------------
 # Bulbs and tubers listed earlier move into the bulbs category
