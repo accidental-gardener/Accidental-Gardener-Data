@@ -256,7 +256,12 @@ object CropCatalog {
     }
 
     private fun download(url: String): String {
-        val conn = URL(url).openConnection() as HttpURLConnection
+        // GitHub keeps files cached for about 5 minutes. A changing query string asks for a fresh copy,
+        // so a plant added a minute ago shows up straight away.
+        val fresh = url + (if ('?' in url) "&" else "?") + "t=" + System.currentTimeMillis() / 1000
+        val conn = URL(fresh).openConnection() as HttpURLConnection
+        conn.useCaches = false
+        conn.setRequestProperty("Cache-Control", "no-cache")
         conn.connectTimeout = 15_000
         conn.readTimeout = 30_000
         conn.setRequestProperty("User-Agent", "AccidentalGardener/1.0 (Android)")
