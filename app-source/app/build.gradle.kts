@@ -23,9 +23,9 @@ android {
     signingConfigs {
         if (keyFile != null) create("release") {
             storeFile = file(keyFile)
-            storePassword = System.getenv("SIGNING_PASSWORD")
-            keyAlias = "gardener"
-            keyPassword = System.getenv("SIGNING_PASSWORD")
+            storePassword = System.getenv("SIGNING_PASSWORD") ?: "android"
+            keyAlias = System.getenv("SIGNING_ALIAS") ?: "androiddebugkey"
+            keyPassword = System.getenv("SIGNING_PASSWORD") ?: "android"
         }
     }
 
