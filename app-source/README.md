@@ -47,3 +47,10 @@ app/src/main/java/com/accidentalgardener/app/
 To add or tweak plants and guides see `guides/README.md`.
 
 Weather forecasts and warnings copyright Met Éireann, source www.met.ie, CC BY 4.0.
+
+## Building
+
+Every push to `main` that changes `app-source/` or `plants.json` builds the app on GitHub
+(`.github/workflows/build-apk.yml`) and replaces `AccidentalGardener.apk` on the v1.0 release,
+with the newest plant database inside. You can also run it from the Actions tab with **Run workflow**.
+The signing key lives only in the private repository secrets `SIGNING_KEY_BASE64` and `SIGNING_PASSWORD`.
