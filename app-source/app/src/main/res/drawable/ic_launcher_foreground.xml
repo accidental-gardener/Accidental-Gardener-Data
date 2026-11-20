@@ -1,0 +1,15 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- stem -->
+    <path android:fillColor="#00000000" android:strokeColor="#3F5E2F" android:strokeWidth="4"
+        android:strokeLineCap="round" android:pathData="M54,66 L54,42" />
+    <!-- left leaf -->
+    <path android:fillColor="#6E9B4A" android:pathData="M53,50 C44,50 34,44 32,32 C44,31 53,38 53,50 Z" />
+    <!-- right leaf -->
+    <path android:fillColor="#4E7A35" android:pathData="M55,44 C56,32 66,24 78,25 C77,37 68,44 55,44 Z" />
+    <!-- pot rim -->
+    <path android:fillColor="#A9512F" android:pathData="M34,62 L74,62 L74,69 L34,69 Z" />
+    <!-- pot body -->
+    <path android:fillColor="#C0623C" android:pathData="M37,69 L71,69 L66,86 L42,86 Z" />
+</vector>
