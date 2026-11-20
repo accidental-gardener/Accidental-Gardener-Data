@@ -1,6 +1,6 @@
 {
- "version": 7,
- "updated": "2026-11-16",
+ "version": 8,
+ "updated": "2026-11-20",
  "plants": [
   {
    "id": "tomato",
@@ -14110,6 +14110,93 @@
       "steps": [
        "Soak the knobbly tubers in lukewarm water overnight. They plump up and grow away much faster.",
        "Plant them the next day."
+      ]
+     }
+    }
+   }
+  },
+  {
+   "id": "camassia",
+   "name": "Camassia (quamash)",
+   "emoji": "💙",
+   "category": "BULB",
+   "family": "OTHER",
+   "daysToHarvest": 230,
+   "harvestWeeks": 4,
+   "fixedSow": [
+    10,
+    1
+   ],
+   "frostHardy": true,
+   "tunnel": "OUTDOOR",
+   "feed": "LOW",
+   "perennial": true,
+   "planted": true,
+   "tip": "Tall spikes of starry blue flowers in late spring. One of the few bulbs that loves heavy, damp Irish soil.",
+   "potOk": true,
+   "potSize": "30 cm pot",
+   "pollinator": true,
+   "bloom": [
+    "SPRING",
+    "SUMMER"
+   ],
+   "flowers": "May to Jun",
+   "guide": {
+    "spacingCm": 15,
+    "rowCm": 15,
+    "sow": {
+     "title": "How to plant",
+     "facts": [
+      [
+       "Depth",
+       "10 cm"
+      ],
+      [
+       "Spacing",
+       "15 cm"
+      ],
+      [
+       "Rows",
+       "15 cm apart"
+      ]
+     ],
+     "steps": [
+      "Fork over the bed, pull out weeds and work in a bucket of compost per square metre.",
+      "Plant from late September to November, before the ground gets cold.",
+      "Plant 10 cm deep, pointy end up, in groups of five or more. Sun or light shade suits them.",
+      "They're happy in clay and damp spots where tulips would rot, and they look great planted into long grass.",
+      "Water in well, even if rain is forecast. It settles the soil around the roots."
+     ],
+     "layout": "Rows 15 cm apart with plants 15 cm apart along each row."
+    },
+    "harden": null,
+    "plantOut": null,
+    "care": [
+     "Leave the leaves to die back naturally after flowering. They feed next year's flowers.",
+     "If you grow them in grass, wait until the leaves have yellowed before mowing, usually by July.",
+     "Every four or five years, lift and split crowded clumps in autumn and replant the spare bulbs.",
+     "Keep the bed weeded, especially while plants are small."
+    ],
+    "harvest": [
+     "Cut a few spikes for the vase when the bottom flowers open. They last about a week.",
+     "Otherwise just enjoy them. Bees love them in May."
+    ],
+    "seedSaving": {
+     "difficulty": "Easy",
+     "timing": "NONE",
+     "storeYears": 0,
+     "note": "",
+     "section": {
+      "title": "How to grow more",
+      "facts": [
+       [
+        "Difficulty",
+        "Easy"
+       ]
+      ],
+      "steps": [
+       "Bulbs multiply by themselves. Every few years, lift a crowded clump after the leaves die back.",
+       "Pull apart the little offset bulbs and replant them at the right depth. They'll flower in a year or two."
       ]
      }
     }

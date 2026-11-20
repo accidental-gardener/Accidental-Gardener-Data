@@ -5,8 +5,8 @@ templates below; plant-specific advice is written per plant.
 """
 import json, sys
 
-VERSION = 7
-UPDATED = "2026-11-16"
+VERSION = 8
+UPDATED = "2026-11-20"
 PLANTS = []
 
 
@@ -19,6 +19,7 @@ NOT_IN_POTS = {"pumpkin", "squash", "marrow", "sweetcorn", "maincrop", "parsnip"
 
 # Good for bees, butterflies and hoverflies: (seasons in flower, months in flower)
 POLLINATORS = {
+    "camassia": (["SPRING", "SUMMER"], "May to Jun"),
     "borage": (["SUMMER"], "Jun to Sep"), "phacelia": (["SUMMER"], "Jun to Aug"), "lavender": (["SUMMER"], "Jun to Aug"),
     "marigold": (["SUMMER", "AUTUMN"], "Jun to Oct"), "calendula": (["SUMMER", "AUTUMN"], "Jun to Oct"),
     "cosmos": (["SUMMER", "AUTUMN"], "Jul to Oct"), "nasturtium": (["SUMMER", "AUTUMN"], "Jun to Oct"),
@@ -1459,6 +1460,19 @@ P("anemoneblanda", "Wood anemone (blanda)", "🌸", "BULB", "OTHER", 170, 4, fix
       "Plant them the next day."]),
   planting=["Plant 5 cm deep. If you can't tell which way is up, plant them on their side."],
   harvest=["Leave them to spread."])
+
+P("camassia", "Camassia (quamash)", "💙", "BULB", "OTHER", 230, 4, fixedSow=[10, 1], frostHardy=True,
+  tunnel="OUTDOOR", planted=True, perennial=True, feed="LOW", potSize="30 cm pot",
+  tip="Tall spikes of starry blue flowers in late spring. One of the few bulbs that loves heavy, damp Irish soil.",
+  bloom=["SPRING", "SUMMER"], flowers="May to Jun", depth="10 cm", space=15, row=15,
+  planting=["Plant from late September to November, before the ground gets cold.",
+            "Plant 10 cm deep, pointy end up, in groups of five or more. Sun or light shade suits them.",
+            "They're happy in clay and damp spots where tulips would rot, and they look great planted into long grass."],
+  care=["Leave the leaves to die back naturally after flowering. They feed next year's flowers.",
+        "If you grow them in grass, wait until the leaves have yellowed before mowing, usually by July.",
+        "Every four or five years, lift and split crowded clumps in autumn and replant the spare bulbs."],
+  harvest=["Cut a few spikes for the vase when the bottom flowers open. They last about a week.",
+           "Otherwise just enjoy them. Bees love them in May."])
 
 P("fritillary", "Snake's head fritillary", "🔔", "BULB", "OTHER", 200, 3, fixedSow=[9, 15], frostHardy=True,
   tunnel="OUTDOOR", planted=True, perennial=True, feed="LOW", tip="Chequered bells that love damp grass.",
