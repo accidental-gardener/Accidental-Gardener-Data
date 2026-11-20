@@ -54,3 +54,5 @@ Every push to `main` that changes `app-source/` or `plants.json` builds the app 
 (`.github/workflows/build-apk.yml`) and replaces `AccidentalGardener.apk` on the v1.0 release,
 with the newest plant database inside. You can also run it from the Actions tab with **Run workflow**.
 The signing key lives only in the private repository secret `SIGNING_KEY_BASE64` (the laptop's debug key, so updates install over earlier builds). `SIGNING_PASSWORD` and `SIGNING_ALIAS` are only needed for a different key.
+
+First signed build: 20 November 2026.
