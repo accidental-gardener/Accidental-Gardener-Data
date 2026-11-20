@@ -255,22 +255,36 @@ object CropCatalog {
         else "Updated to version ${c.version} with ${c.plants.size} plants."
     }
 
+    /**
+     * Downloads a file. GitHub's normal raw links are cached for about 5 minutes, so for those the app asks
+     * GitHub's API first, which is only cached for about a minute. If that fails (it allows 60 checks an
+     * hour per connection) it falls back to the normal link.
+     */
     private fun download(url: String): String {
-        // GitHub keeps files cached for about 5 minutes. A changing query string asks for a fresh copy,
-        // so a plant added a minute ago shows up straight away.
-        val fresh = url + (if ('?' in url) "&" else "?") + "t=" + System.currentTimeMillis() / 1000
-        val conn = URL(fresh).openConnection() as HttpURLConnection
-        conn.useCaches = false
-        conn.setRequestProperty("Cache-Control", "no-cache")
+        val m = Regex("^https://raw\\.githubusercontent\\.com/([^/]+)/([^/]+)/([^/]+)/(.+)$").find(url)
+        if (m != null) {
+            val (owner, repo, branch, path) = m.destructured
+            runCatching {
+                return get("https://api.github.com/repos/$owner/$repo/contents/$path?ref=$branch", "application/vnd.github.raw")
+            }
+        }
+        return get(url, null)
+    }
+
+    private fun get(url: String, accept: String?): String {
+        val conn = URL(url).openConnection() as HttpURLConnection
         conn.connectTimeout = 15_000
         conn.readTimeout = 30_000
+        conn.useCaches = false
         conn.setRequestProperty("User-Agent", "AccidentalGardener/1.0 (Android)")
+        if (accept != null) conn.setRequestProperty("Accept", accept)
         try {
             if (conn.responseCode !in 200..299) throw IOException("HTTP ${conn.responseCode}")
             return conn.inputStream.bufferedReader().use { it.readText() }
         } finally {
             conn.disconnect()
         }
+    }
     }
 }
 
