@@ -285,7 +285,6 @@ object CropCatalog {
             conn.disconnect()
         }
     }
-    }
 }
 
 /** Reads plants.json. Unknown or broken entries are skipped rather than crashing. */
